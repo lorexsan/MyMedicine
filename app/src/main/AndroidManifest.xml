@@ -16,11 +16,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register">
-        </activity>
+            android:label="@string/title_activity_register"></activity>
+        <activity
+            android:name=".RegisterElderlyActivity"
+            android:label="Register as a patient"></activity>
+        <activity
+            android:name=".RegisterDoctorFamilyActivity"
+            android:label="Register as carer"></activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
