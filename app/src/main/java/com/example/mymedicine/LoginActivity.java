@@ -1,5 +1,6 @@
 package com.example.mymedicine;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -16,22 +17,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
     private TextView mUsernameView;
     private EditText mPasswordView;
 
-    /**
-      This creates the UI
-     */
+    //*****************************************************************************************************
+    //THIS CREATES AND CONNECTS THE UI
+    //*****************************************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         //This is the UI layout, with buttons and text fields
-
         mUsernameView = (TextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -44,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-
         Button mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -55,51 +58,74 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    /**
-     This is called when the login button is clicked
-    */
+    //*****************************************************************************************************
+    //THIS IS CALLED ONCE THE LOGIN BUTTON IS CLICKED
+    //*****************************************************************************************************
     private void attemptLogin() {
-
-
         String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        boolean error = false;
-        //TODO: Check if login details are correct, if not set variable error to true
-
-        String id = findUsername(username);
-        boolean success = checkPassword(id, password);
-
-
-        if (error) {
-            //TODO: Show an error message
-
-
-
+        //Checks if login details are correct, if not set variable error to true
+        if(checkUsername(username)){
+            if (checkPassword(username, password)){
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                startActivity(intent);
+            } else {
+                mPasswordView.setError("Password doesn't match");
+            }
         } else {
-            //TODO: Show a success message
-
-
-
+            mUsernameView.setError("Username not found");
         }
     }
 
-    private String findUsername(String input) {
-        //TODO:check if the input is in the database asa username
-        //return its id if it is in the database
-        //return -1
-        return "";
-    }
 
-    private boolean checkPassword(String id, String password) {
-        //TODO:check if the id in the database has the given password
-        //return true or false
+    private boolean checkUsername(String input) {
+        //TODO:return true if username is in the system, otherwise false
+
+        /*
+        final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot ds) {
+               //YOUR CODE GOES HERE
+               //ds IS THE DATA
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("DATABASE ERROR");
+            }
+        });
+        */
+
         return false;
     }
 
-    /**
-     * Loads of boring stuff from here on
-    */
+
+    private boolean checkPassword(String username, String password) {
+        //TODO:return true if the given username matches the given password in the database, otherwise false
+        
+        /*
+        final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot ds) {
+               //YOUR CODE GOES HERE
+               //ds IS THE DATA
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("DATABASE ERROR");
+            }
+        });
+        */
+
+        return false;
+    }
+
+
+    //*****************************************************************************************************
+    //BORING STUFF FROM HERE ON
+    //*****************************************************************************************************
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
