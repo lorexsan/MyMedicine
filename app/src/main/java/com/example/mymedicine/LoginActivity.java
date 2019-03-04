@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean checkPassword(String username, String password) {
         //TODO:return true if the given username matches the given password in the database, otherwise false
-        
+
         /*
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
