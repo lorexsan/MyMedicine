@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    private TextView mUsernameView;
-    private EditText mPasswordView;
 
     /**
      This creates the UI
@@ -56,30 +54,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 startActivity(intent);
             }
         });
-    }
-
-
-    /**
-     This is called when the register button is clicked
-     */
-    private void attemptRegistration() {
-
-        //TODO: Register the details on the txt file, if not set variable error to true
-        String email = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean error = false;
-
-
-
-        if (error) {
-            //TODO: Print error message
-
-
-        } else {
-            //TODO: Show success message
-
-        }
     }
 
     /**

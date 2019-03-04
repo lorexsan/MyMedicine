@@ -2,13 +2,13 @@ package com.example.mymedicine;
 
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,34 +16,27 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
+//database imports
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterElderlyActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
     private static final android.widget.Toast Toast = null;
     private static final android.util.Log Log = null;
     private TextView mUsernameView;
     private EditText mPasswordView;
     private TextView mFullNameView;
 
-    /**
-     This creates the UI
-     */
+    //*****************************************************************************************************
+    //THIS CREATES AND CONNECTS THE UI
+    //*****************************************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_elderly);
-
-
-        //This is the UI layout, with buttons and text fields
         mFullNameView = (TextView) findViewById(R.id.fullname);
         mUsernameView = (TextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -57,8 +50,6 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                 return false;
             }
         });
-
-
         Button mRegisterButton = (Button) findViewById(R.id.register_elderly);
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -69,55 +60,55 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
     }
 
 
-    /**
-     This is called when the register button is clicked
-     */
+    //*****************************************************************************************************
+    //THIS IS CALLED ONCE THE REGISTER BUTTON IS CLICKED
+    //*****************************************************************************************************
     private void register() {
+        //Gets all the user inputs
+        final String fullName = mFullNameView.getText().toString();
+        final String username = mUsernameView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+        final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
 
-        String fullName = mUsernameView.getText().toString();
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean error = false;
-
+        //Checks if the username is already taken (on FireBase database)
         try{
-            InputStream is = this.getAssets().open("userdata.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-            String line = br.readLine();
-            String[] fields = new String[5];
-
-            while (line != null) {
-                fields = line.split(",");
-                if (fields[1].equals(username)) {
-                    error = true;
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot ds) {
+                    boolean usernameAlreadyExists = false;
+                    for (DataSnapshot i : ds.getChildren()) {
+                        if (i.getKey().equals(username)) {
+                            usernameAlreadyExists = true;
+                        }
+                    }
+                    //If username is already taken, it prints an error message
+                    if (usernameAlreadyExists) {
+                        mUsernameView.setError("This username has already been taken");
+                    }else{
+                        //Otherwise it registers the user on the database
+                        mDatabase.child(username).child("password").setValue(password);
+                        mDatabase.child(username).child("fullname").setValue(fullName);
+                        mDatabase.child(username).child("user-type").setValue("Patient");
+                        //It goes to a new page, if the registration is successful
+                        Intent intent = new Intent(RegisterElderlyActivity.this, WelcomeActivity.class);
+                        startActivity(intent);
+                    }
                 }
-                line = br.readLine();
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("DATABASE ERROR");
+                }
+            });
         }catch(Exception e) {
             Toast.makeText(RegisterElderlyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
             Log.e("MYAPP", "exception", e);
         }
-
-
-        if (error) {
-            mUsernameView.setError("This username has already been taken");
-        } else {
-            try{
-
-
-
-            }catch(Exception e){
-                Toast.makeText(RegisterElderlyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
-                Log.e("MYAPP", "exception", e);
-            }
-
-        }
     }
 
-    /**
-     * Loads of boring stuff from here on
-     */
+
+    //*****************************************************************************************************
+    //LOADS OF BORING STUFF FROM HERE ON
+    //*****************************************************************************************************
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,

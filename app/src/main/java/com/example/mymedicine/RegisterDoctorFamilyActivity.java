@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegisterDoctorFamilyActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -66,13 +68,28 @@ public class RegisterDoctorFamilyActivity extends AppCompatActivity implements L
         boolean error = false;
 
 
+        try{
+            //TODO: access FireBase database
+            //TODO: check if username already used, if yes set 'error' to true
+
+
+        }catch(Exception e) {
+            Toast.makeText(RegisterDoctorFamilyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
+            Log.e("MYAPP", "exception", e);
+        }
+
 
         if (error) {
-            //TODO: Print error message
-
-
+            mUsernameView.setError("This username has already been taken");
         } else {
-            //TODO: Show success message
+            try{
+                //TODO: register new user
+
+
+            }catch(Exception e){
+                Toast.makeText(RegisterDoctorFamilyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
+                Log.e("MYAPP", "exception", e);
+            }
 
         }
     }

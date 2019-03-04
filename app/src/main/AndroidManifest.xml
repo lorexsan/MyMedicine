@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mymedicine">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -15,14 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".WelcomeActivity"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register"></activity>
+            android:label="@string/title_activity_register" />
         <activity
             android:name=".RegisterElderlyActivity"
-            android:label="Register as a patient"></activity>
+            android:label="Register as a patient" />
         <activity
             android:name=".RegisterDoctorFamilyActivity"
-            android:label="Register as carer"></activity>
+            android:label="Register as carer" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />

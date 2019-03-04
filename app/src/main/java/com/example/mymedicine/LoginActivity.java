@@ -60,16 +60,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     */
     private void attemptLogin() {
 
-        //TODO: Check if login details are correct, if not set variable error to true
+
         String username = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean error = false;
+        //TODO: Check if login details are correct, if not set variable error to true
 
-
-
-
-
+        String id = findUsername(username);
+        boolean success = checkPassword(id, password);
 
 
         if (error) {
@@ -85,6 +84,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    private String findUsername(String input) {
+        //TODO:check if the input is in the database asa username
+        //return its id if it is in the database
+        //return -1
+        return "";
+    }
+
+    private boolean checkPassword(String id, String password) {
+        //TODO:check if the id in the database has the given password
+        //return true or false
+        return false;
+    }
 
     /**
      * Loads of boring stuff from here on
