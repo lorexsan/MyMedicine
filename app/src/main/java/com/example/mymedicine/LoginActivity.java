@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.concurrent.CountDownLatch;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     private TextView mUsernameView;
@@ -62,55 +65,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //THIS IS CALLED ONCE THE LOGIN BUTTON IS CLICKED
     //*****************************************************************************************************
     private void attemptLogin() {
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        //Checks if login details are correct, if not set variable error to true
-        if(checkUsername(username)){
-            if (checkPassword(username, password)){
-                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                startActivity(intent);
-            } else {
-                mPasswordView.setError("Password doesn't match");
-            }
-        } else {
-            mUsernameView.setError("Username not found");
-        }
-    }
-
-
-    private boolean checkUsername(String input) {
-        //TODO:return true if username is in the system, otherwise false
-
-        
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("mymedicine-5f14d").child(input).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
-               //YOUR CODE GOES HERE
-               //ds IS THE DATA
-               if (ds.exists()){
-                    return true;
+                boolean usernameIsOk = false;
+                for (DataSnapshot i : ds.getChildren()) {
+                    if (i.getKey().equals(mUsernameView.getText().toString())) {
+                        usernameIsOk = true;
+                        //TODO:check if password corresponds to given username
+                        //CHECK PASSWORD
+                    }
                 }
-                else{
-                    return false;
+                if(!usernameIsOk){
+                    mUsernameView.setError("Username not recognised");
                 }
-                
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("DATABASE ERROR");
             }
         });
-        
 
-        return false;
     }
 
 
     private boolean checkPassword(String username, String password) {
-        //TODO:return true if the given username matches the given password in the database, otherwise false
-
         /*
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -125,7 +106,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
         */
-
         return false;
     }
 

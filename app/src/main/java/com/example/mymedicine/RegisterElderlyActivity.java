@@ -1,11 +1,16 @@
 package com.example.mymedicine;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +34,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
     private TextView mUsernameView;
     private EditText mPasswordView;
     private TextView mFullNameView;
+    private View mProgressView;
 
     //*****************************************************************************************************
     //THIS CREATES AND CONNECTS THE UI
@@ -37,6 +43,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_elderly);
+        mProgressView = findViewById(R.id.register_progress);
         mFullNameView = (TextView) findViewById(R.id.fullname);
         mUsernameView = (TextView) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -64,6 +71,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
     //THIS IS CALLED ONCE THE REGISTER BUTTON IS CLICKED
     //*****************************************************************************************************
     private void register() {
+        mProgressView.setVisibility(View.VISIBLE);
         //Gets all the user inputs
         final String fullName = mFullNameView.getText().toString();
         final String username = mUsernameView.getText().toString();
@@ -83,6 +91,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                     }
                     //If username is already taken, it prints an error message
                     if (usernameAlreadyExists) {
+                        mProgressView.setVisibility(View.GONE);
                         mUsernameView.setError("This username has already been taken");
                     }else{
                         //Otherwise it registers the user on the database
@@ -96,10 +105,12 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    mProgressView.setVisibility(View.GONE);
                     System.out.println("DATABASE ERROR");
                 }
             });
         }catch(Exception e) {
+            mProgressView.setVisibility(View.GONE);
             Toast.makeText(RegisterElderlyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
             Log.e("MYAPP", "exception", e);
         }
