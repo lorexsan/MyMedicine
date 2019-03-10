@@ -29,6 +29,7 @@ import java.util.concurrent.CountDownLatch;
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     private TextView mUsernameView;
     private EditText mPasswordView;
+    private View mProgressView;
 
     //*****************************************************************************************************
     //THIS CREATES AND CONNECTS THE UI
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //This is the UI layout, with buttons and text fields
         mUsernameView = (TextView) findViewById(R.id.username);
+        mProgressView = findViewById(R.id.login_progress);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -65,48 +67,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //THIS IS CALLED ONCE THE LOGIN BUTTON IS CLICKED
     //*****************************************************************************************************
     private void attemptLogin() {
+        mProgressView.setVisibility(View.VISIBLE);
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                 boolean usernameIsOk = false;
+                String username = mUsernameView.getText().toString();
+                String password = mPasswordView.getText().toString();
                 for (DataSnapshot i : ds.getChildren()) {
-                    if (i.getKey().equals(mUsernameView.getText().toString())) {
+                    if (i.getKey().equals(username)) {
                         usernameIsOk = true;
-                        //TODO:check if password corresponds to given username
-                        //CHECK PASSWORD
+                        if (ds.child(username).child("password").getValue().toString().equals(password)) {
+                            Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                            startActivity(intent);
+                        } else {
+                            mProgressView.setVisibility(View.GONE);
+                            mPasswordView.setError("Password doesn't match");
+                        }
                     }
                 }
                 if(!usernameIsOk){
+                    mProgressView.setVisibility(View.GONE);
                     mUsernameView.setError("Username not recognised");
                 }
 
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                mProgressView.setVisibility(View.GONE);
                 System.out.println("DATABASE ERROR");
             }
         });
 
-    }
-
-
-    private boolean checkPassword(String username, String password) {
-        /*
-        final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot ds) {
-               //YOUR CODE GOES HERE
-               //ds IS THE DATA
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("DATABASE ERROR");
-            }
-        });
-        */
-        return false;
     }
 
 
