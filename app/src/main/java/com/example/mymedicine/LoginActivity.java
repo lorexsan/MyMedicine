@@ -1,6 +1,7 @@
 package com.example.mymedicine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private TextView mUsernameView;
     private EditText mPasswordView;
     private View mProgressView;
+    public static final String MyMedicine = "MyMedicine";
 
     //*****************************************************************************************************
     //THIS CREATES AND CONNECTS THE UI
@@ -67,32 +69,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //THIS IS CALLED ONCE THE LOGIN BUTTON IS CLICKED
     //*****************************************************************************************************
     private void attemptLogin() {
+        //a loading screen is shown
         mProgressView.setVisibility(View.VISIBLE);
+        //the database is accessed to check the details inputted by the user
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
+
                 boolean usernameIsOk = false;
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
+
+                //this loop goes through all the entries in the database
                 for (DataSnapshot i : ds.getChildren()) {
+                    //it checks each one of them if they match the username inputted by the user
                     if (i.getKey().equals(username)) {
                         usernameIsOk = true;
+                        //if yes, it checks if also the password matches
                         if (ds.child(username).child("password").getValue().toString().equals(password)) {
-                            Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                            startActivity(intent);
+                            //if the password is correct it saves the username for later usage
+                            SharedPreferences.Editor editor = getSharedPreferences(MyMedicine, MODE_PRIVATE).edit();
+                            editor.putString("username", username);
+                            editor.putString("fullname", ds.child(username).child("fullname").getValue().toString());
+                            editor.apply();
+                            //and redirects to the correct homepage
+                            if(ds.child(username).child("user-type").getValue().toString().equals("Patient")){
+                                Intent intent = new Intent(LoginActivity.this, ElderlyHomepageActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                                startActivity(intent);
+                            }
+                            //if password is wrong it sets an error
                         } else {
                             mProgressView.setVisibility(View.GONE);
                             mPasswordView.setError("Password doesn't match");
                         }
                     }
                 }
+                //if the username is not in the database it sets an error
                 if(!usernameIsOk){
                     mProgressView.setVisibility(View.GONE);
                     mUsernameView.setError("Username not recognised");
                 }
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 mProgressView.setVisibility(View.GONE);

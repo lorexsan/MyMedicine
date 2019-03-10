@@ -18,4 +18,5 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="title_activity_login2">Sign in</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="title_activity_elderly_homepage">Homepage</string>
 </resources>

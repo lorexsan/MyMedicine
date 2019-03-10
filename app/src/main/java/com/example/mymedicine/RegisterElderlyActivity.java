@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -35,6 +36,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
     private EditText mPasswordView;
     private TextView mFullNameView;
     private View mProgressView;
+    public static final String MyMedicine = "MyMedicine";
 
     //*****************************************************************************************************
     //THIS CREATES AND CONNECTS THE UI
@@ -98,6 +100,11 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                         mDatabase.child(username).child("password").setValue(password);
                         mDatabase.child(username).child("fullname").setValue(fullName);
                         mDatabase.child(username).child("user-type").setValue("Patient");
+                        //saves the username for later use
+                        SharedPreferences.Editor editor = getSharedPreferences(MyMedicine, MODE_PRIVATE).edit();
+                        editor.putString("username", username);
+                        editor.putString("fullname", fullName);
+                        editor.apply();
                         //It goes to a new page, if the registration is successful
                         Intent intent = new Intent(RegisterElderlyActivity.this, WelcomeActivity.class);
                         startActivity(intent);
