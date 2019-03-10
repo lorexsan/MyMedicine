@@ -106,7 +106,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                         editor.putString("fullname", fullName);
                         editor.apply();
                         //It goes to a new page, if the registration is successful
-                        Intent intent = new Intent(RegisterElderlyActivity.this, WelcomeActivity.class);
+                        Intent intent = new Intent(RegisterElderlyActivity.this, ElderlyHomepageActivity.class);
                         startActivity(intent);
                     }
                 }

@@ -25,7 +25,7 @@
             tools:layout_editor_absoluteY="59dp" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/taken_medications_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16sp"
@@ -39,6 +39,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="16sp" />
+
+        <TextView
+            android:id="@+id/taken_medications_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16sp"
+            android:layout_marginRight="16sp"
+            android:text="Once your doctor will add medicines for you, you'll see them here."
+            android:textSize="24sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
