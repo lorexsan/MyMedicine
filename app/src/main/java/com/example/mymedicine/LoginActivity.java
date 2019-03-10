@@ -79,21 +79,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    private boolean checkUsername(String input) {
+    private boolean checkUsername(final String input) {
         //TODO:return true if username is in the system, otherwise false
 
         
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("mymedicine-5f14d").child(input).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                //YOUR CODE GOES HERE
                //ds IS THE DATA
-               if (ds.exists()){
-                    return true;
+               if (ds.hasChild(input)){
+                    System.out.println("User Exist");
                 }
                 else{
-                    return false;
+                    return;
                 }
                 
             }
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
         
 
-        return false;
+        return true;
     }
 
 
