@@ -76,6 +76,12 @@ public class ElderlyHomepageActivity extends AppCompatActivity implements Toolba
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity(); // or finish();
+    }
+
     private void showMedications() {
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
