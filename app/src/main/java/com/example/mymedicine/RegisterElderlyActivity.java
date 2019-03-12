@@ -104,6 +104,7 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                         SharedPreferences.Editor editor = getSharedPreferences(MyMedicine, MODE_PRIVATE).edit();
                         editor.putString("username", username);
                         editor.putString("fullname", fullName);
+                        editor.putString("user-type", "Patient");
                         editor.apply();
                         //It goes to a new page, if the registration is successful
                         Intent intent = new Intent(RegisterElderlyActivity.this, ElderlyHomepageActivity.class);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,23 +12,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/elderly_home_title"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16sp"
-            android:text="Hello!"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            tools:layout_editor_absoluteX="91dp"
-            tools:layout_editor_absoluteY="59dp" />
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"/>
 
         <TextView
             android:id="@+id/taken_medications_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16sp"
+            android:layout_marginTop="16sp"
             android:layout_marginRight="16sp"
             android:text="These are the medications you are currently taking:"
             android:textSize="24sp"

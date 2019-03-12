@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             SharedPreferences.Editor editor = getSharedPreferences(MyMedicine, MODE_PRIVATE).edit();
                             editor.putString("username", username);
                             editor.putString("fullname", ds.child(username).child("fullname").getValue().toString());
+                            editor.putString("user-type", ds.child(username).child("user-type").getValue().toString());
                             editor.apply();
                             //and redirects to the correct homepage
                             if(ds.child(username).child("user-type").getValue().toString().equals("Patient")){

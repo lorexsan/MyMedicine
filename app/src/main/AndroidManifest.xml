@@ -15,12 +15,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ElderlyHomepageActivity"
-            android:label="@string/title_activity_elderly_homepage"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_elderly_homepage"/>
         <activity
             android:name=".WelcomeActivity"
-            android:label="@string/title_activity_welcome"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_welcome" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />

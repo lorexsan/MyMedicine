@@ -1,6 +1,7 @@
 package com.example.mymedicine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences preferences = getSharedPreferences("MyMedicine", MODE_PRIVATE);
+        String currentUsername = preferences.getString("username", "");
+        String currentUserType = preferences.getString("user-type", "");
+
+        if(!currentUsername.equals("") && currentUserType.equals("Patient")){
+            Intent intent = new Intent(MainActivity.this, ElderlyHomepageActivity.class);
+            startActivity(intent);
+        } else if (!currentUsername.equals("")){
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+        }
 
         Button mLoginButton = (Button) findViewById(R.id.go_to_login);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
