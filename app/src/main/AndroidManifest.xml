@@ -26,6 +26,9 @@
             android:name=".RegisterElderlyActivity"
             android:label="Register as a patient" />
         <activity
+            android:name=".ListMedicine"
+            android:label="Database of Medicine" />
+        <activity
             android:name=".RegisterDoctorFamilyActivity"
             android:label="Register as carer" />
         <activity
