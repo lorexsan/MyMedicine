@@ -78,7 +78,7 @@ public class ListMedicine extends AppCompatActivity {
 
         ListView list = (ListView) findViewById(R.id.listViewMain);
 
-        addChildEventListener();
+        //addChildEventListener();
 
         list.setAdapter(adapter);
 
