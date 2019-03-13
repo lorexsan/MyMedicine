@@ -98,6 +98,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             if(ds.child(username).child("user-type").getValue().toString().equals("Patient")){
                                 Intent intent = new Intent(LoginActivity.this, ElderlyHomepageActivity.class);
                                 startActivity(intent);
+                            }else if(ds.child(username).child("user-type").getValue().toString().equals("Administrator")){
+                                Intent intent = new Intent(LoginActivity.this, ListMedicine.class);
+                                startActivity(intent);
+                                
                             } else {
                                 Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
                                 startActivity(intent);
