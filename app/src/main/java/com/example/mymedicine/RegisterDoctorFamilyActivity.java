@@ -3,6 +3,8 @@ package com.example.mymedicine;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.SharedPreferences;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,10 +19,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+//database imports
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegisterDoctorFamilyActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
     private TextView mUsernameView;
+    private TextView mEmailView;
     private EditText mPasswordView;
 
     /**
@@ -34,6 +42,7 @@ public class RegisterDoctorFamilyActivity extends AppCompatActivity implements L
         //This is the UI layout, with buttons and text fields
 
         mUsernameView = (TextView) findViewById(R.id.username);
+        mEmailView = (TextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -60,37 +69,50 @@ public class RegisterDoctorFamilyActivity extends AppCompatActivity implements L
      This is called when the register button is clicked
      */
     private void attemptRegistration() {
-
-        //TODO: Register the details on the txt file, if not set variable error to true
-        String email = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean error = false;
-
+        final String username = mUsernameView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+        final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
 
         try{
-            //TODO: access FireBase database
-            //TODO: check if username already used, if yes set 'error' to true
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot ds) {
+                    boolean error = false;
+                    for (DataSnapshot i : ds.getChildren()) {
+                        if (i.getKey().equals(username)) {
+                            error = true;
+                        }
+                    }
+                    //If username is already taken, it prints an error message
+                    if (error) {
+                        mUsernameView.setError("This username has already been taken");
+                    }else{
+                        //Otherwise it registers the user on the database
+                        mDatabase.child(username).child("password").setValue(password);
+                        mDatabase.child(username).child("email").setValue(email);
+                        mDatabase.child(username).child("user-type").setValue("Doctor/Family");
+
+                        // Store the username that a doctor/family registers with
+                        SharedPreferences.Editor editor = getSharedPreferences("MyMedicine", MODE_PRIVATE).edit();
+                        editor.putString("username", username);
+                        editor.apply();
+
+                        //It goes to a new page, if the registration is successful
+                        Intent intent = new Intent(RegisterDoctorFamilyActivity.this, DoctorFamilyHomepageActivity.class);
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("DATABASE ERROR");
+                }
+            });
 
 
         }catch(Exception e) {
             Toast.makeText(RegisterDoctorFamilyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
             Log.e("MYAPP", "exception", e);
-        }
-
-
-        if (error) {
-            mUsernameView.setError("This username has already been taken");
-        } else {
-            try{
-                //TODO: register new user
-
-
-            }catch(Exception e){
-                Toast.makeText(RegisterDoctorFamilyActivity.this, "Sorry, something went wrong!", Toast.LENGTH_LONG).show();
-                Log.e("MYAPP", "exception", e);
-            }
-
         }
     }
 

@@ -91,7 +91,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             //if the password is correct it saves the username for later usage
                             SharedPreferences.Editor editor = getSharedPreferences(MyMedicine, MODE_PRIVATE).edit();
                             editor.putString("username", username);
-                            editor.putString("fullname", ds.child(username).child("fullname").getValue().toString());
+                            if(ds.child(username).child("user-type").getValue().toString().equals("Patient")){
+                                editor.putString("fullname", ds.child(username).child("fullname").getValue().toString());
+                            }
                             editor.putString("user-type", ds.child(username).child("user-type").getValue().toString());
                             editor.apply();
                             //and redirects to the correct homepage
@@ -103,8 +105,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 startActivity(intent);
                                 
                             } else {
-                                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                                startActivity(intent);
+                                Intent homepageIntent = new Intent(LoginActivity.this, DoctorFamilyHomepageActivity.class);
+                                startActivity(homepageIntent);
                             }
                             //if password is wrong it sets an error
                         } else {

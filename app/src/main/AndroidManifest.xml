@@ -13,9 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AssignPatientActivity"></activity>
+        <activity android:name=".DoctorFamilyHomepageActivity" />
         <activity
             android:name=".ElderlyHomepageActivity"
-            android:label="@string/title_activity_elderly_homepage"/>
+            android:label="@string/title_activity_elderly_homepage" />
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome" />

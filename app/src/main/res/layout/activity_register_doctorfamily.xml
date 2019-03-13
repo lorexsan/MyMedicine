@@ -32,10 +32,10 @@
             tools:layout_editor_absoluteY="16dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/fullname"
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full Name" />
+                android:hint="Email" />
 
         </android.support.design.widget.TextInputLayout>
 
