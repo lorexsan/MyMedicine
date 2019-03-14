@@ -91,22 +91,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             //if the password is correct it saves the username for later usage
                             SharedPreferences.Editor editor = getSharedPreferences(MyMedicine, MODE_PRIVATE).edit();
                             editor.putString("username", username);
+                            editor.putString("user-type", ds.child(username).child("user-type").getValue().toString());
                             if(ds.child(username).child("user-type").getValue().toString().equals("Patient")){
                                 editor.putString("fullname", ds.child(username).child("fullname").getValue().toString());
-                            }
-                            editor.putString("user-type", ds.child(username).child("user-type").getValue().toString());
-                            editor.apply();
-                            //and redirects to the correct homepage
-                            if(ds.child(username).child("user-type").getValue().toString().equals("Patient")){
+                                editor.apply();
                                 Intent intent = new Intent(LoginActivity.this, ElderlyHomepageActivity.class);
                                 startActivity(intent);
                             }else if(ds.child(username).child("user-type").getValue().toString().equals("Administrator")){
+                                editor.apply();
                                 Intent intent = new Intent(LoginActivity.this, ListMedicine.class);
                                 startActivity(intent);
-                                
                             } else {
-                                Intent homepageIntent = new Intent(LoginActivity.this, DoctorFamilyHomepageActivity.class);
-                                startActivity(homepageIntent);
+                                editor.apply();
+                                Intent intent = new Intent(LoginActivity.this, DoctorFamilyHomepageActivity.class);
+                                startActivity(intent);
                             }
                             //if password is wrong it sets an error
                         } else {

@@ -11,10 +11,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
         <Button
             android:id="@+id/assign_patient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16sp"
             android:text="Assign Patient" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

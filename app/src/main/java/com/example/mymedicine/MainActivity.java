@@ -23,8 +23,11 @@ public class MainActivity extends AppCompatActivity {
         if(!currentUsername.equals("") && currentUserType.equals("Patient")){
             Intent intent = new Intent(MainActivity.this, ElderlyHomepageActivity.class);
             startActivity(intent);
-        } else if (!currentUsername.equals("")){
-            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+        } else if (!currentUsername.equals("") && currentUserType.equals("Administrator")){
+            Intent intent = new Intent(MainActivity.this, ListMedicine.class);
+            startActivity(intent);
+        } else if (!currentUsername.equals("")) {
+            Intent intent = new Intent(MainActivity.this, DoctorFamilyHomepageActivity.class);
             startActivity(intent);
         }
 
