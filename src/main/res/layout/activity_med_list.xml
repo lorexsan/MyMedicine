@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ElderlyHomepageActivity">
@@ -50,10 +51,10 @@
             android:textStyle="bold" />
 
         <ListView
-            android:id="@+id/listViewMain"
+            android:background="@color/colorPrimary"
+            android:fontFamily="sans-serif-smallcaps"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:isScrollContainer="true" />
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>
