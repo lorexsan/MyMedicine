@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#E6F2FF</color>
-    <color name="colorPrimaryDark">#5B9BC6</color>
-    <color name="colorAccent">#718E3F</color>
-    <color name="default_list_bg">#00D81B60</color>
-    <color name="selected_list_bg">#19000000</color>
-</resources>
