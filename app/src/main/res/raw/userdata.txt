@@ -1,0 +1,2 @@
+user-type,username,password,email,fullname
+lorenzo,lorenzo97
