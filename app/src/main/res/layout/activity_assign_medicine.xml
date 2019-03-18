@@ -128,7 +128,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_rounded"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Submit"
+            android:text="Add medicine"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
