@@ -44,6 +44,7 @@ public class ElderlyHomepageActivity extends AppCompatActivity implements Toolba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.toolbar_menu);
         toolbar.setOnMenuItemClickListener(this);
+        toolbar.bringToFront();
 
         mMedicationsList = (ListView) findViewById(R.id.taken_medications);
         mMedicationsListTitle = (TextView) findViewById(R.id.taken_medications_title);

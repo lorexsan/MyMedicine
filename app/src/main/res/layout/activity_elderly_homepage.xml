@@ -7,9 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".ElderlyHomepageActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical">
 
@@ -18,9 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16sp"
+            android:fontFamily="sans-serif-smallcaps"
             android:text="Hello!"
             android:textColor="@color/colorAccent"
-            android:fontFamily="sans-serif-smallcaps"
             android:textSize="40sp"
             android:textStyle="bold"
             android:visibility="visible"
@@ -31,21 +40,21 @@
             android:id="@+id/taken_medications_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
             android:layout_marginLeft="16sp"
             android:layout_marginRight="16sp"
-            android:text="These are the medications you are currently taking:"
-            android:textStyle="bold"
             android:fontFamily="sans-serif-smallcaps"
+            android:text="These are the medications you are currently taking:"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="26sp"
+            android:textStyle="bold"
             android:visibility="visible" />
 
         <ListView
             android:id="@+id/taken_medications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="sans-serif-smallcaps"
-            android:layout_margin="23sp" />
+            android:layout_margin="23sp"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <TextView
             android:id="@+id/taken_medications_title2"
