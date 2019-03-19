@@ -129,7 +129,9 @@
             android:background="@drawable/btn_rounded"
             android:fontFamily="sans-serif-smallcaps"
             android:text="Add medicine"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:textSize="20sp"
             android:textStyle="bold" />
 
