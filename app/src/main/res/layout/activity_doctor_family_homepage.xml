@@ -31,5 +31,22 @@
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/delete_patient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Patient" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Here are the patients assigned to you:" />
+
+        <ListView
+            android:id="@+id/assigned_patients"
+            android:layout_width="match_parent"
+            android:layout_height="512dp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

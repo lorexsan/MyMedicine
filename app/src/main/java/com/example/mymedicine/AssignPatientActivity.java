@@ -47,7 +47,7 @@ public class AssignPatientActivity extends AppCompatActivity {
         try{
             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot ds) {
+                public void onDataChange(final DataSnapshot ds) {
                     boolean usernameAlreadyExists = false;
                     for (DataSnapshot i : ds.getChildren()) {
                         if (i.getKey().equals(username)) {
@@ -60,11 +60,34 @@ public class AssignPatientActivity extends AppCompatActivity {
                         patient.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+                                //boolean patientAlreadyAssigned = false;
                                 String type = dataSnapshot.getValue(String.class);
                                 System.out.println(type);
                                 if(type.equals("Patient")) {
+                                    // Assign a relevant doctor/family member to a patient in the database
+                                    if (ds.child(username).child("assignedDoctorFamily").child("0").exists()) {
+                                        int temp=0;
+                                        while(ds.child(username).child("assignedDoctorFamily").child(Integer.toString(temp)).exists()) {
+                                            temp++;
+                                        }
+                                        mDatabase.child(username).child("assignedDoctorFamily").child(Integer.toString(temp)).setValue(loggedInUsername);
+                                    }
+                                    else {
+                                        mDatabase.child(username).child("assignedDoctorFamily").child("0").setValue(loggedInUsername);
+                                    }
 
-                                    mDatabase.child(username).child("assignedDoctorFamily").setValue(loggedInUsername);
+                                    // Assign a relevant patient to a doctor/family member in the database
+                                    if (ds.child(loggedInUsername).child("assignedPatients").child("0").exists()) {
+                                        int i=0;
+                                        while(ds.child(loggedInUsername).child("assignedPatients").child(Integer.toString(i)).exists()) {
+                                            i++;
+                                        }
+                                        mDatabase.child(loggedInUsername).child("assignedPatients").child(Integer.toString(i)).setValue(username);
+                                    }
+                                    else {
+                                        mDatabase.child(loggedInUsername).child("assignedPatients").child("0").setValue(username);
+                                    }
+
                                     // After the doctor/family is assigned, go back to the home screen
                                     Intent intent = new Intent(AssignPatientActivity.this, DoctorFamilyHomepageActivity.class);
                                     startActivity(intent);
