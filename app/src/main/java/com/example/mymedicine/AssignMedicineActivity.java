@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,6 +63,30 @@ public class AssignMedicineActivity extends AppCompatActivity implements Toolbar
     private ArrayAdapter<String> adapter;
    // private static final String TAG = "AssignMedicineActivity";
 
+    //HERE KARINA COMMENT
+   private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+           = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+       @Override
+       public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+           switch (item.getItemId()) {
+               case R.id.navigation_home:
+                   startActivity(new Intent(AssignMedicineActivity.this,DoctorFamilyHomepageActivity.class));
+
+                   return true;
+               case R.id.navigation_add:
+
+                   startActivity(new Intent(AssignMedicineActivity.this,AssignMedicineActivity.class));
+
+                   return true;
+               case R.id.navigation_delete:
+                   startActivity(new Intent(AssignMedicineActivity.this,DoctorFamilyHomepageActivity.class));
+                   return true;
+           }
+           return false;
+       }
+   };
+
 
 
     @Override
@@ -67,6 +94,12 @@ public class AssignMedicineActivity extends AppCompatActivity implements Toolbar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_medicine);
         getSupportActionBar().hide();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.toolbar_menu);
@@ -384,6 +417,7 @@ public class AssignMedicineActivity extends AppCompatActivity implements Toolbar
         super.onBackPressed();
         finishAffinity(); // or finish();
     }
+
 
 
 }

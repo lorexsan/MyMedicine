@@ -2,9 +2,12 @@ package com.example.mymedicine;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,10 +29,40 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
     private ArrayList<String> patients = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    startActivity(new Intent(DoctorFamilyHomepageActivity.this,DoctorFamilyHomepageActivity.class));
+
+                    return true;
+                case R.id.navigation_add:
+
+                    startActivity(new Intent(DoctorFamilyHomepageActivity.this,AssignMedicineActivity.class));
+
+                    return true;
+                case R.id.navigation_delete:
+                    startActivity(new Intent(DoctorFamilyHomepageActivity.this,DoctorFamilyHomepageActivity.class));
+                    return true;
+            }
+            return false;
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_family_homepage);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
         getSupportActionBar().hide();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.toolbar_menu);
@@ -97,5 +130,13 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
                 startActivity(intent);
         }
         return true;
+    }
+
+    //karinka kupinka
+    @Override
+    public void onBackPressed() {
+
+
+
     }
 }
