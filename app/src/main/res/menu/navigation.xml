@@ -9,7 +9,7 @@
     <item
         android:id="@+id/navigation_add"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="Add Medication" />
+        android:title="Add Patient" />
 
     <item
         android:id="@+id/navigation_delete"
