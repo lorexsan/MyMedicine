@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AssignPatientActivity"></activity>
+        <activity android:name=".AssignPatientActivity" />
         <activity android:name=".DoctorFamilyHomepageActivity" />
+        <activity android:name=".AssignMedicineActivity" />
         <activity
             android:name=".ElderlyHomepageActivity"
             android:label="@string/title_activity_elderly_homepage" />
