@@ -51,13 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-smallcaps"
                 android:hint="Full Name"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"
                 android:textColorLink="@color/colorPrimaryDark"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:visibility="visible" />
 
         </android.support.design.widget.TextInputLayout>
@@ -74,13 +72,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-smallcaps"
                 android:hint="Username"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"
                 android:textColorLink="@color/colorPrimaryDark"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:visibility="visible" />
 
         </android.support.design.widget.TextInputLayout>
@@ -99,11 +95,11 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-smallcaps"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"
                 android:textColorLink="@color/colorPrimaryDark"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="25sp"
                 android:visibility="visible" />
 
         </android.support.design.widget.TextInputLayout>
