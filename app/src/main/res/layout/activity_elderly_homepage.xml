@@ -5,6 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".ElderlyHomepageActivity">
 
     <android.support.v7.widget.Toolbar
@@ -18,30 +19,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:background="@color/colorPrimary"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/elderly_home_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16sp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="Hello!"
-            android:textColor="@color/colorAccent"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            tools:layout_editor_absoluteX="91dp"
-            tools:layout_editor_absoluteY="59dp" />
 
         <TextView
             android:id="@+id/taken_medications_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16sp"
-            android:layout_marginRight="16sp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif-smallcaps"
             android:text="These are the medications you are currently taking:"
             android:textColor="@color/colorPrimaryDark"
@@ -53,7 +41,6 @@
             android:id="@+id/taken_medications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="23sp"
             android:fontFamily="sans-serif-smallcaps" />
 
         <TextView

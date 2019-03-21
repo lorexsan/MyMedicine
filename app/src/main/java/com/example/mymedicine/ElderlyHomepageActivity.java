@@ -95,13 +95,11 @@ public class ElderlyHomepageActivity extends AppCompatActivity implements Toolba
             @Override
             public void onDataChange(DataSnapshot ds) {
                 //retrieves medications for the current user
-                if (ds.child(currentUsername).child("medications").child("0").exists()) {
-                    int i=0;
+                if (ds.child(currentUsername).child("medicationsList").exists()) {
                     //adds the medications to an arrayList
-                    while(ds.child(currentUsername).child("medications").child(Integer.toString(i)).exists()) {
-                        String medicine = ds.child(currentUsername).child("medications").child(Integer.toString(i)).child("name").getValue().toString();
-                        medications.add(medicine);
-                        i++;
+                    for (DataSnapshot postSnapshot: ds.child(currentUsername).child("medicationsList").getChildren()) {
+                        String medicineName = postSnapshot.getKey();
+                        medications.add(medicineName);
                     }
                     //The content of the arrayList populates the list in the UI
                     adapter = new ArrayAdapter<>(ElderlyHomepageActivity.this, R.layout.medication_list_item, medications);
