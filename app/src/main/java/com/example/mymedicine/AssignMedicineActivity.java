@@ -222,42 +222,54 @@ public class AssignMedicineActivity extends AppCompatActivity implements Toolbar
             public void onDataChange(DataSnapshot ds) {
 
                 boolean usernameExists = false;
+                boolean fieldsMissing = false;
                 String username = patientUsername.getText().toString();
                 String medicine = medicineName.getText().toString();
                 String sDate = startDate.getText().toString();
                 String eDate = endDate.getText().toString();
                 String dose = dosage.getText().toString();
                 String hourlyTime = time.getText().toString();
+
                 for (DataSnapshot i : ds.getChildren()) {
                     if (i.getKey().equals(username)) {
                         usernameExists = true;
-                        if (ds.child(username).child("assignedDoctorFamily").exists()) {
-                            if (ds.child(username).child("assignedDoctorFamily").getValue().toString().equals(loggedInUsername)) {
-                                //mDatabase.child(username).child("medicationsList").setValue(medicine);
-                                mDatabase.child(username).child("medicationsList").child(medicine);
-                                mDatabase.child(username).child("medicationsList").child(medicine).child("startDate").setValue(sDate);
-                                mDatabase.child(username).child("medicationsList").child(medicine).child("endDate").setValue(eDate);
-                                mDatabase.child(username).child("medicationsList").child(medicine).child("dosage").setValue(dose);
-                                mDatabase.child(username).child("medicationsList").child(medicine).child("time").setValue(hourlyTime);
+                    }
+                }
+                if ((medicineName.getText().toString().trim().isEmpty())|| (startDate.getText().toString().trim().isEmpty()) || (endDate.getText().toString().trim().isEmpty()) || (dosage.getText().toString().trim().isEmpty()) || (time.getText().toString().trim().isEmpty())){
+                    fieldsMissing = true;
+                }
 
-                                Intent intent = new Intent(AssignMedicineActivity.this, DoctorFamilyHomepageActivity.class);
-                                startActivity(intent);
+                else{
+                    if(usernameExists){
+                        if(ds.child(loggedInUsername).child("assignedPatients").exists()){
+                            for (DataSnapshot i : ds.child(loggedInUsername).child("assignedPatients").getChildren()) {
+                                if(i.getValue().toString().equals(username)){
+                                    mDatabase.child(username).child("medicationsList").child(medicine);
+                                    mDatabase.child(username).child("medicationsList").child(medicine).child("startDate").setValue(sDate);
+                                    mDatabase.child(username).child("medicationsList").child(medicine).child("endDate").setValue(eDate);
+                                    mDatabase.child(username).child("medicationsList").child(medicine).child("dosage").setValue(dose);
+                                    mDatabase.child(username).child("medicationsList").child(medicine).child("time").setValue(hourlyTime);
 
+                                    Intent intent = new Intent(AssignMedicineActivity.this, DoctorFamilyHomepageActivity.class);
+                                    startActivity(intent);
 
-                            } else {
+                                }
 
-                                patientUsername.setError(" This patient is not registered as a patient of " + loggedInUsername);
                             }
-                        } else {
-
+                        }
+                        else{
                             patientUsername.setError(" This patient is not registered as a patient of " + loggedInUsername);
 
                         }
-                    } else {
 
-                        patientUsername.setError(username + " is not registered as a patient of " + loggedInUsername);
                     }
+                    else{
+                        patientUsername.setError(username + " is not registered as a patient of " + loggedInUsername);
+
+                    }
+
                 }
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
