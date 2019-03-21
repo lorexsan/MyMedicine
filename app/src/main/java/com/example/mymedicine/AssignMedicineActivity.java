@@ -422,15 +422,5 @@ public class AssignMedicineActivity extends AppCompatActivity implements Toolbar
         }
         return true;
     }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity(); // or finish();
-    }
-
-
-
 }
 

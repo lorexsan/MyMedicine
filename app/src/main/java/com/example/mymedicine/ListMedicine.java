@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,28 +84,51 @@ public class ListMedicine extends AppCompatActivity implements Toolbar.OnMenuIte
     //*****************************************************************************************************
     private void deleteItem() {
         if (itemSelected) {
-            final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Are you sure you want to delete " + array.get(selectedPosition) + "?");
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
-                public void onDataChange(DataSnapshot ds) {
-                    //It removes the medicine from the online database
-                    mDatabase.child("MEDICATIONS").child(String.valueOf(selectedPosition)).removeValue();
-                    array.remove(selectedPosition);
-                    //And displays the change in the UI
-                    adapter.notifyDataSetChanged();
-                    int i = selectedPosition+1;
-                    while(ds.child("MEDICATIONS").child(Integer.toString(i)).exists()) {
-                        String value = ds.child("MEDICATIONS").child(Integer.toString(i)).getValue().toString();
-                        mDatabase.child("MEDICATIONS").child(Integer.toString(i-1)).setValue(value);
-                        i++;
-                    }
-                    mDatabase.child("MEDICATIONS").child(String.valueOf(i-1)).removeValue();
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    System.out.println("DATABASE ERROR");
+                public void onClick(DialogInterface dialog, int which) {
+                    final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
+                    mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot ds) {
+                            //It removes the medicine from the online database
+                            mDatabase.child("MEDICATIONS").child(String.valueOf(selectedPosition)).removeValue();
+                            array.remove(selectedPosition);
+                            //And displays the change in the UI
+                            adapter.notifyDataSetChanged();
+                            int i = selectedPosition+1;
+                            while(ds.child("MEDICATIONS").child(Integer.toString(i)).exists()) {
+                                String value = ds.child("MEDICATIONS").child(Integer.toString(i)).getValue().toString();
+                                mDatabase.child("MEDICATIONS").child(Integer.toString(i-1)).setValue(value);
+                                i++;
+                            }
+                            mDatabase.child("MEDICATIONS").child(String.valueOf(i-1)).removeValue();
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("DATABASE ERROR");
+                        }
+                    });
                 }
             });
+            //When the cancel button is clicked the pop-up closes
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            //Dialog is shown
+            builder.show();
+
+        } else {
+            Toast toast = Toast.makeText(this, "No medicine is selected", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 

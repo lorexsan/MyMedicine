@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:title="Assign Patient" />
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Patients" />
 
     <item
         android:id="@+id/navigation_add"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="Add Medication" />
+        android:title="Assign Medicine" />
 
     <item
         android:id="@+id/navigation_delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="Delete Medication" />
+        android:title="Delete Medicine" />
 
 </menu>
