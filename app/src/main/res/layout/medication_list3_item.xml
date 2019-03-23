@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.widget.TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/bg_selected"
+        android:fontFamily="sans-serif-smallcaps"
+        android:paddingTop="8sp"
+        android:paddingBottom="8sp"
+        android:text="Sample Text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible">
+
+    </android.widget.TextView>
+</LinearLayout>

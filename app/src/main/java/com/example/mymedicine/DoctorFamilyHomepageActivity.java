@@ -45,7 +45,7 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
 
                     return true;
                 case R.id.navigation_delete:
-                    startActivity(new Intent(DoctorFamilyHomepageActivity.this,DoctorFamilyHomepageActivity.class));
+                    startActivity(new Intent(DoctorFamilyHomepageActivity.this,DeleteMedicationActivity.class));
                     return true;
             }
             return false;

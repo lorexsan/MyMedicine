@@ -80,7 +80,7 @@ public class AssignMedicineActivity extends AppCompatActivity implements Toolbar
 
                    return true;
                case R.id.navigation_delete:
-                   startActivity(new Intent(AssignMedicineActivity.this,DoctorFamilyHomepageActivity.class));
+                   startActivity(new Intent(AssignMedicineActivity.this,DeleteMedicationActivity.class));
                    return true;
            }
            return false;
