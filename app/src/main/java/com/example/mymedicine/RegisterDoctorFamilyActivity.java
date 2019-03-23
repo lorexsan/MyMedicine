@@ -77,18 +77,32 @@ public class RegisterDoctorFamilyActivity extends AppCompatActivity{
             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot ds) {
-                    boolean error = false;
+                    boolean usernameAlreadyTaken = false;
                     //Search if the username is already used
                     for (DataSnapshot i : ds.getChildren()) {
                         if (i.getKey().equals(username)) {
-                            error = true;
+                            usernameAlreadyTaken = true;
                         }
                     }
                     //If username is already taken, it prints an error message
-                    if (error) {
+                    if (usernameAlreadyTaken) {
                         mProgressView.setVisibility(View.GONE);
                         mUsernameView.setError("This username has already been taken");
-                    }else{
+                    }
+                    //If any of the text fields are empty, it prints an error message
+                    else if (username.equals("")) {
+                        mProgressView.setVisibility(View.GONE);
+                        mUsernameView.setError("Please type in your username");
+                    }
+                    else if (password.equals("")) {
+                        mProgressView.setVisibility(View.GONE);
+                        mPasswordView.setError("Please type in your password");
+                    }
+                    else if (email.equals("")) {
+                        mProgressView.setVisibility(View.GONE);
+                        mEmailView.setError("Please type in your password");
+                    }
+                    else{
                         //Otherwise it registers the user on the database
                         mDatabase.child(username).child("password").setValue(password);
                         mDatabase.child(username).child("email").setValue(email);
