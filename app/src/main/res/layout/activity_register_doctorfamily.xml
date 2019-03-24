@@ -25,7 +25,7 @@
         tools:layout_editor_absoluteY="80dp">
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

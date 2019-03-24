@@ -77,6 +77,7 @@ public class ListMedicine extends AppCompatActivity implements Toolbar.OnMenuIte
                 itemSelected = true;
             }
         });
+        ;
     }
 
     //*****************************************************************************************************
@@ -116,7 +117,7 @@ public class ListMedicine extends AppCompatActivity implements Toolbar.OnMenuIte
                 }
             });
             //When the cancel button is clicked the pop-up closes
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -145,6 +146,7 @@ public class ListMedicine extends AppCompatActivity implements Toolbar.OnMenuIte
                 while(ds.child("MEDICATIONS").child(Integer.toString(i)).exists()) {
                     String medicine = ds.child("MEDICATIONS").child(Integer.toString(i)).getValue().toString();
                     array.add(medicine);
+                    adapter.notifyDataSetChanged();
                     i++;
                 }
             }

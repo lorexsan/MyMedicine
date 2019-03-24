@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 public class DoctorFamilyHomepageActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
 
     private String currentUsername;
+    private TextView text1;
+    private TextView text2;
     private ListView mPatientsList;
+    private ListView mSkippedPatientsList;
+    private ArrayList<String> skippedPatients = new ArrayList<String>();
+    private ArrayAdapter<String> adapterSk;
     private ArrayList<String> patients = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
@@ -75,6 +81,9 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
         toolbar.setOnMenuItemClickListener(this);
 
         mPatientsList = (ListView) findViewById(R.id.assigned_patients);
+        mSkippedPatientsList = (ListView) findViewById(R.id.skipped_patients);
+        text1 = (TextView) findViewById(R.id.textView5);
+        text2 = (TextView) findViewById(R.id.textView6);
 
         //Get the logged in user's username
         SharedPreferences preferences = getSharedPreferences("MyMedicine", MODE_PRIVATE);
@@ -111,12 +120,24 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
                     while(ds.child(currentUsername).child("assignedPatients").child(Integer.toString(i)).exists()) {
                         String patient = ds.child(currentUsername).child("assignedPatients").child(Integer.toString(i)).getValue().toString();
                         patients.add(patient);
+                        if(ds.child(patient).child("medicationsList").exists()){
+                            for(DataSnapshot data : ds.child(patient).child("medicationsList").getChildren()) {
+                                if (data.child("taken").toString().contains("nnn")){
+                                    skippedPatients.add(patient);
+                                }
+                            }
+                        }
                         i++;
                     }
                     adapter = new ArrayAdapter<>(DoctorFamilyHomepageActivity.this, R.layout.medication_list_item, patients);
                     mPatientsList.setAdapter(adapter);
+                    adapterSk = new ArrayAdapter<>(DoctorFamilyHomepageActivity.this, R.layout.medication_list_item, skippedPatients);
+                    mSkippedPatientsList.setAdapter(adapterSk);
                 } else {
                     mPatientsList.setVisibility(View.GONE);
+                    mSkippedPatientsList.setVisibility(View.GONE);
+                    text2.setVisibility(View.GONE);
+                    text1.setText("You don't have any patient assigned.");
                 }
             }
 

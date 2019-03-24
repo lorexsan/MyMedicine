@@ -86,7 +86,21 @@ public class DeleteMedicationActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.toolbar_menu);
-        //toolbar.setOnMenuItemClickListener(this);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.logout_button:
+                        SharedPreferences.Editor editor = getSharedPreferences("MyMedicine", MODE_PRIVATE).edit();
+                        editor.putString("username", "");
+                        editor.putString("fullname", "");
+                        editor.apply();
+                        Intent intent = new Intent(DeleteMedicationActivity.this, MainActivity.class);
+                        startActivity(intent);
+                }
+                return true;
+            }
+        });
         toolbar.setTitle("Delete patient's medicine");
 
         // Get a username of a doctor/family member that is logged in
@@ -138,6 +152,7 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                                         // Store names of all medicine that is assigned to a patient
                                         for (DataSnapshot i : ds.child(patient).child("medicationsList").getChildren()) {
                                             medicines.add(i.getKey());
+                                            adapter.notifyDataSetChanged();
                                         }
                                     }
                                     else {
@@ -269,21 +284,5 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                 System.out.println("DATABASE ERROR");
             }
         });
-    }
-
-    //*****************************************************************************************************
-    //THIS IS CALLED WHEN THE USER LOGS OUT
-    //*****************************************************************************************************
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout_button:
-                SharedPreferences.Editor editor = getSharedPreferences("MyMedicine", MODE_PRIVATE).edit();
-                editor.putString("username", "");
-                editor.putString("fullname", "");
-                editor.apply();
-                Intent intent = new Intent(DeleteMedicationActivity.this, MainActivity.class);
-                startActivity(intent);
-        }
-        return true;
     }
 }

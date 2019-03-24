@@ -1,13 +1,16 @@
 package com.example.mymedicine;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,12 +58,83 @@ public class ElderlyHomepageActivity extends AppCompatActivity implements Toolba
         currentFullName = preferences.getString("fullname", "");
         currentUsername = preferences.getString("username", "");
 
+        //Print a list of medications taken
+        showMedications();
+
         //Print a welcome message in the top bar
         String message = "Hello, " + currentFullName + "!";
         toolbar.setTitle(message);
 
-        //Print a list of medications taken
-        showMedications();
+        mMedicationsList.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String medName = adapter.getItem(position);
+                takenMedicine(medName);
+            }
+        });
+
+
+    }
+
+    private void takenMedicine(final String medicine) {
+        final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Did you take " + medicine + " today?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot ds) {
+                        if (ds.child(currentUsername).child("medicationsList").child(medicine).child("taken").exists()) {
+                            String checks = ds.child(currentUsername).child("medicationsList").child(medicine).child("taken").getValue().toString();
+                            checks = checks + "y";
+                            while (checks.length() > 7){
+                                checks = checks.substring(1);
+                            }
+                            mDatabase.child(currentUsername).child("medicationsList").child(medicine).child("taken").setValue(checks);
+                        } else {
+                            mDatabase.child(currentUsername).child("medicationsList").child(medicine).child("taken").setValue("y");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("DATABASE ERROR");
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot ds) {
+                        if (ds.child(currentUsername).child("medicationsList").child(medicine).child("taken").exists()) {
+                            String checks = ds.child(currentUsername).child("medicationsList").child(medicine).child("taken").getValue().toString();
+                            checks = checks + "n";
+                            while (checks.length() > 7){
+                                checks = checks.substring(1);
+                            }
+                            mDatabase.child(currentUsername).child("medicationsList").child(medicine).child("taken").setValue(checks);
+
+                        } else {
+                            mDatabase.child(currentUsername).child("medicationsList").child(medicine).child("taken").setValue("n");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("DATABASE ERROR");
+                    }
+                });
+            }
+        });
+
+        builder.show();
     }
 
     //*****************************************************************************************************
