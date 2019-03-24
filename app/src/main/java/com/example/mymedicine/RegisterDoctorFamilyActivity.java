@@ -84,23 +84,23 @@ public class RegisterDoctorFamilyActivity extends AppCompatActivity{
                             usernameAlreadyTaken = true;
                         }
                     }
-                    //If username is already taken, it prints an error message
-                    if (usernameAlreadyTaken) {
-                        mProgressView.setVisibility(View.GONE);
-                        mUsernameView.setError("This username has already been taken");
-                    }
                     //If any of the text fields are empty, it prints an error message
-                    else if (username.equals("")) {
-                        mProgressView.setVisibility(View.GONE);
-                        mUsernameView.setError("Please type in your username");
-                    }
-                    else if (password.equals("")) {
+                    if (password.equals("")) {
                         mProgressView.setVisibility(View.GONE);
                         mPasswordView.setError("Please type in your password");
                     }
-                    else if (email.equals("")) {
+                    if (email.equals("")) {
                         mProgressView.setVisibility(View.GONE);
-                        mEmailView.setError("Please type in your password");
+                        mEmailView.setError("Please type in your email");
+                    }
+                    if (username.equals("")) {
+                        mProgressView.setVisibility(View.GONE);
+                        mUsernameView.setError("Please type in your username");
+                    }
+                    //If username is already taken, it prints an error message
+                    else if (usernameAlreadyTaken) {
+                        mProgressView.setVisibility(View.GONE);
+                        mUsernameView.setError("This username has already been taken");
                     }
                     else{
                         //Otherwise it registers the user on the database

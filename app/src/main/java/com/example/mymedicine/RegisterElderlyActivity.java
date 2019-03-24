@@ -91,23 +91,23 @@ public class RegisterElderlyActivity extends AppCompatActivity implements Loader
                             usernameAlreadyExists = true;
                         }
                     }
-                    //If username is already taken, it prints an error message
-                    if (usernameAlreadyExists) {
-                        mProgressView.setVisibility(View.GONE);
-                        mUsernameView.setError("This username has already been taken");
-                    }
                     //If any of the text fields are empty, it prints an error message
-                    else if (username.equals("")) {
-                        mProgressView.setVisibility(View.GONE);
-                        mUsernameView.setError("Please type in your username");
-                    }
-                    else if (password.equals("")) {
+                    if (password.equals("")) {
                         mProgressView.setVisibility(View.GONE);
                         mPasswordView.setError("Please type in your password");
                     }
-                    else if (fullName.equals("")) {
+                    if (fullName.equals("")) {
                         mProgressView.setVisibility(View.GONE);
-                        mFullNameView.setError("Please type in your password");
+                        mFullNameView.setError("Please type in your full name");
+                    }
+                    if (username.equals("")) {
+                        mProgressView.setVisibility(View.GONE);
+                        mUsernameView.setError("Please type in your username");
+                    }
+                    //If username is already taken, it prints an error message
+                    else if (usernameAlreadyExists) {
+                        mProgressView.setVisibility(View.GONE);
+                        mUsernameView.setError("This username has already been taken");
                     }
                     else{
                         //Otherwise it registers the user on the database

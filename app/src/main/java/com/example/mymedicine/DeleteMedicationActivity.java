@@ -261,6 +261,9 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                 if (medicine.trim().isEmpty()){
                     medicineName.setError("Please select a medicine");
                 }
+                if (username.trim().isEmpty()){
+                    patientUsername.setError("Please select a patient");
+                }
                 else if (!usernameAssigned) {
                     patientUsername.setError("This patient is not assigned to you");
                 }
