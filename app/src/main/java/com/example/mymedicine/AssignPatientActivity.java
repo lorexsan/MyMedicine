@@ -56,13 +56,25 @@ public class AssignPatientActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(final DataSnapshot ds) {
                     boolean usernameAlreadyExists = false;
+                    boolean patientAlreadyAssigned = false;
                     for (DataSnapshot i : ds.getChildren()) {
                         if (i.getKey().equals(username)) {
                             usernameAlreadyExists = true;
                         }
                     }
+                    if(ds.child(loggedInUsername).child("assignedPatients").exists()) {
+                        for (DataSnapshot i : ds.child(loggedInUsername).child("assignedPatients").getChildren()) {
+                            if (i.getValue().equals(username)) {
+                                patientAlreadyAssigned = true;
+                            }
+                        }
+                    }
 
-                    if (usernameAlreadyExists) {
+                    if(patientAlreadyAssigned) {
+                        patientUsername.setError("This patient is already assigned to you");
+                    }
+
+                    else if (usernameAlreadyExists) {
                         DatabaseReference patient = mDatabase.child(username).child("user-type");
                         patient.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
