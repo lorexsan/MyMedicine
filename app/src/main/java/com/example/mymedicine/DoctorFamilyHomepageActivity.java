@@ -29,6 +29,10 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
     private ArrayList<String> patients = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
+
+    //*****************************************************************************************************
+    // SWITCH BETWEEN TABS ON BOTTOM NAVIGATION WIDGET
+    //*****************************************************************************************************
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -52,7 +56,9 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
         }
     };
 
-
+    //*****************************************************************************************************
+    //THIS CREATES AND CONNECTS THE UI
+    //*****************************************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +98,9 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
         });
     }
 
+    //*****************************************************************************************************
+    // DISPLAY A LIST OF PATIENTS ASSIGNED TO A LOGGED IN DOCTOR/FAMILY MEMBER
+    //*****************************************************************************************************
     private void showPatients() {
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -118,6 +127,9 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
         });
     }
 
+    //*****************************************************************************************************
+    // THIS IS CALLED WHEN THE USER LOGS OUT
+    //*****************************************************************************************************
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
@@ -132,7 +144,6 @@ public class DoctorFamilyHomepageActivity extends AppCompatActivity implements T
         return true;
     }
 
-    //karinka kupinka
     @Override
     public void onBackPressed() {
 

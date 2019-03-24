@@ -42,6 +42,9 @@ public class DeleteMedicationActivity extends AppCompatActivity {
     final ArrayList<String> medicines = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
 
+    //*****************************************************************************************************
+    // SWITCH BETWEEN TABS ON BOTTOM NAVIGATION WIDGET
+    //*****************************************************************************************************
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -65,6 +68,9 @@ public class DeleteMedicationActivity extends AppCompatActivity {
         }
     };
 
+    //*****************************************************************************************************
+    //THIS CREATES AND CONNECTS THE UI
+    //*****************************************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,19 +89,19 @@ public class DeleteMedicationActivity extends AppCompatActivity {
         //toolbar.setOnMenuItemClickListener(this);
         toolbar.setTitle("Delete patient's medicine");
 
+        // Get a username of a doctor/family member that is logged in
         SharedPreferences preferences = getSharedPreferences("MyMedicine", MODE_PRIVATE);
         loggedInUsername = preferences.getString("username", "");
 
         patientUsername = (EditText) findViewById(R.id.patient_username);
-
         medicineName = (EditText) findViewById(R.id.medicine_name);
+
         medicineName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 viewMedicineList();
             }
         });
-
 
         submitButton = (Button) findViewById(R.id.delete_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +125,7 @@ public class DeleteMedicationActivity extends AppCompatActivity {
         patientDR.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                // Check if a selected patient has medicine assigned to him/her
                 if(dataSnapshot.child("assignedPatients").exists()){
                     for (DataSnapshot i : dataSnapshot.child("assignedPatients").getChildren()) {
                         if (i.getValue().equals(patient)) {
@@ -128,13 +135,13 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot ds) {
                                     medicines.removeAll(medicines);
                                     if(ds.child(patient).child("medicationsList").exists()) {
+                                        // Store names of all medicine that is assigned to a patient
                                         for (DataSnapshot i : ds.child(patient).child("medicationsList").getChildren()) {
                                             medicines.add(i.getKey());
                                         }
-                                        System.out.println("MEDICINEEEEEES");
-                                        System.out.println(medicines);
                                     }
                                     else {
+                                        // If a patient does not have any medicine assigned to him/her
                                         medicinePrescribed = false;
                                     }
                                 }
@@ -144,6 +151,7 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                                 }
                             });
 
+                            // Create a pop up window
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(DeleteMedicationActivity.this);
                             if(!medicinePrescribed) {
                                 alertDialog.setTitle("No medicines are prescribed to this patient");
@@ -162,6 +170,7 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                                 View row = getLayoutInflater().inflate(R.layout.row_item,null);
                                 ListView list = (ListView)row.findViewById(R.id.list_view);
 
+                                // Display a list with medicine names on pop up window
                                 adapter = new ArrayAdapter<>(DeleteMedicationActivity.this, R.layout.medication_list2_item, medicines);
                                 list.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
@@ -215,6 +224,9 @@ public class DeleteMedicationActivity extends AppCompatActivity {
     }
 
 
+    //*****************************************************************************************************
+    // WHEN DELETE BUTTON IS CLICKED, THE MEDICINE IS REMOVED FROM DATABASE OR ERROR IS DISPLAYED
+    //*****************************************************************************************************
     private void actionDeleteButton() {
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -225,6 +237,7 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                 String username = patientUsername.getText().toString();
                 String medicine = medicineName.getText().toString();
 
+                // Check if the patient is assigned to a logged in doctor/family member
                 for (DataSnapshot i : ds.child(loggedInUsername).child("assignedPatients").getChildren()) {
                     if (i.getValue().equals(username)) {
                         usernameAssigned = true;
@@ -244,9 +257,7 @@ public class DeleteMedicationActivity extends AppCompatActivity {
                             // After the medicine is deleted go to the homepage
                             Intent intent = new Intent(DeleteMedicationActivity.this, DoctorFamilyHomepageActivity.class);
                             startActivity(intent);
-
                         }
-
                     }
                     if (!medicineFound) {
                         medicineName.setError("This medicine is not assigned to the patient");

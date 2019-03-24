@@ -19,16 +19,20 @@ public class AssignPatientActivity extends AppCompatActivity {
     private String loggedInUsername;
     private TextView patientUsername;
 
+    //*****************************************************************************************************
+    //THIS CREATES AND CONNECTS THE UI
+    //*****************************************************************************************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_patient);
         patientUsername = (TextView) findViewById(R.id.patient_username);
 
-        //Get the logged in user's username
+        // Get the logged in user's username
         SharedPreferences preferences = getSharedPreferences("MyMedicine", MODE_PRIVATE);
         loggedInUsername = preferences.getString("username", "");
 
+        // Assign patient on button click
         Button assignButton = (Button) findViewById(R.id.assign_button);
         assignButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +43,9 @@ public class AssignPatientActivity extends AppCompatActivity {
 
     }
 
+    //*****************************************************************************************************
+    // ASSIGNS PATIENT TO DOCTOR/FAMILY MEMBER IF A PROPER USERNAME IS TYPED
+    //*****************************************************************************************************
     private void assign_patient() {
         final String username = patientUsername.getText().toString();
         final DatabaseReference mDatabase =  FirebaseDatabase.getInstance().getReference();
@@ -63,6 +70,7 @@ public class AssignPatientActivity extends AppCompatActivity {
                                 //boolean patientAlreadyAssigned = false;
                                 String type = dataSnapshot.getValue(String.class);
                                 System.out.println(type);
+                                // Check if the username belongs to the "Patient" type
                                 if(type.equals("Patient")) {
                                     // Assign a relevant doctor/family member to a patient in the database
                                     if (ds.child(username).child("assignedDoctorFamily").child("0").exists()) {
